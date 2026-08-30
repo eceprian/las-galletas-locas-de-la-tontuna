@@ -189,10 +189,22 @@
     <!-- Botón flotante para activar/silenciar la música -->
     <button class="music-toggle" id="musicBtn" onclick="toggleMusic()" title="Silenciar / Activar música">🔇</button>
 
-    <!-- Elemento de audio en bucle -->
+    <!-- Tus archivos de audio personalizados -->
     <audio id="bgMusic" loop>
-        <source src="https://actions.google.com/sounds/v1/ambiences/playful_kids.ogg" type="audio/ogg">
+        <source src="musica-suave.mp3" type="audio/mpeg">
         Tu navegador no soporta audio.
+    </audio>
+
+    <audio id="soundCrush">
+        <source src="crujido.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="soundApplause">
+        <source src="aplauso.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="soundFart">
+        <source src="pedo.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Encabezado con tu diseño de título -->
@@ -302,6 +314,9 @@
         let musicStarted = false;
         const music = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
+        const soundCrush = document.getElementById('soundCrush');
+        const soundApplause = document.getElementById('soundApplause');
+        const soundFart = document.getElementById('soundFart');
 
         function toggleMusic() {
             if (music.paused) {
@@ -345,15 +360,26 @@
         };
 
         function openFortune() {
+            // Reproducir sonido de crujido al hacer clic en cualquier galleta
+            soundCrush.currentTime = 0;
+            soundCrush.play().catch(e => console.log("Audio crujido bloqueado"));
+
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
             
             document.getElementById('fortuneText').innerText = randomFortune.texto;
 
             const companionElement = document.getElementById('companionImg');
+            
             if (randomFortune.tipo === "negativo") {
                 companionElement.src = "https://i.postimg.cc/2SCtnLbc/oni.png";
+                // Sonido de pedo para augurio negativo
+                soundFart.currentTime = 0;
+                soundFart.play().catch(e => console.log("Audio pedo bloqueado"));
             } else {
                 companionElement.src = "https://i.postimg.cc/jSR1ynw3/unicornio.png";
+                // Sonido de aplauso para augurio positivo
+                soundApplause.currentTime = 0;
+                soundApplause.play().catch(e => console.log("Audio aplauso bloqueado"));
             }
 
             document.getElementById('fortuneModal').style.display = 'flex';
