@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las Galletas Locas de la Tontuna</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fce4ec;
+            text-align: center;
+            padding: 20px 15px;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
+            justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Contenedor de las 30 galletas flotantes de fondo */
+        .fondo-galletas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .galleta-flotante {
+            position: absolute;
+            width: 50px;
+            opacity: 0.25;
+            animation: flotar 12s infinite linear;
+        }
+
+        @keyframes flotar {
+            0% {
+                transform: translateY(105vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+            }
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        .img-titulo {
+            max-width: 280px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+
+        .zona-interactiva {
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-galleta {
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .img-galleta:hover {
+            transform: scale(1.05);
+        }
+
+        .img-personaje {
+            max-width: 130px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            animation: aparecer 0.3s ease-out;
+        }
+
+        @keyframes aparecer {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        #mensaje {
+            margin-top: 15px;
+            padding: 15px 20px;
+            background-color: #ffffff;
+            border: 2px dashed #d81b60;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #333;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+            display: none;
+            word-break: break-word;
+        }
+
+        .botones-accion {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #ad1457;
+        }
+        #btnSilenciar {
+            background-color: #757575;
+        }
+        #btnSilenciar:hover {
+            background-color: #616161;
+        }
+
+        .firma {
+            margin-top: 20px;
+            font-size: 1.25rem;
+            color: #666;
+            font-weight: bold;
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo con las 30 galletas flotantes -->
+    <div class="fondo-galletas" id="fondoGalletas"></div>
+
+    <div class="container">
+        <!-- Título con imagen -->
+        <img src="titulo.png" alt="Las Galletas Locas de la Tontuna" class="img-titulo">
+        <p>Haz clic en la galleta para descubrir tu fortuna:</p>
+        
+        <div class="zona-interactiva" id="zonaInteractiva">
+            <!-- Imagen inicial de galleta seleccionada al azar entre las 4 -->
+            <img id="galletaImg" class="img-galleta" src="galletita01.png" alt="Galleta de la fortuna" onclick="abrirGalleta()">
+        </div>
+        
+        <div id="mensaje"></div>
+        
+        <div class="botones-accion">
+            <button id="btnOtra" style="display:none;" onclick="reiniciar()">Otra galleta</button>
+            <button id="btnSilenciar" onclick="toggleSilencio()">🔊 Sonido: Activado</button>
+        </div>
+    </div>
+
+    <div class="firma">
+        Una tontunez ideada por FACTORÍA BISTURÍ
+    </div>
+
+    <!-- Audios -->
+    <audio id="audioMusica" src="musica-suave.mp3" loop preload="auto"></audio>
+    <audio id="audioCrujido" src="crujido.mp3" preload="auto"></audio>
+    <audio id="audioPedo" src="pedo.mp3" preload="auto"></audio>
+    <audio id="audioAplauso" src="aplauso.mp3" preload="auto"></audio>
+
+    <script>
+        let sonidoActivado = true;
+
+        // Lista de las 4 imágenes de galletas iniciales para que salga una aleatoria
+        const imagenesGalletas = ["galletita01.png", "galletita02.png", "galletita03.png", "galletita04.png"];
+
+        // Colección de 60 fortunas (30 positivas y 30 negativas)
+        const fortunas = [
+            // --- POSITIVAS (30) ---
+            { texto: "Hoy te espera una gran revelación: el mando de la tele estaba en el sofá todo este tiempo.", tipo: "positivo" },
+            { texto: "Tu sexto sentido te avisa de que tienes hambre. Hazle caso.", tipo: "positivo" },
+            { texto: "Tendrás mucha suerte hoy, especialmente si decides no hacer absolutamente nada.", tipo: "positivo" },
+            { texto: "Alguien pensará en ti hoy con cariño... o tal vez solo se acordará de que le debes un café.", tipo: "positivo" },
+            { texto: "Tu cartera sufrirá una metamorfosis mágica: un billete olvidado aparecerá en tu chaqueta.", tipo: "positivo" },
+            { texto: "Se avecina un gran logro personal: conseguirás abrir un paquete de plástico duro sin romperte las uñas.", tipo: "positivo" },
+            { texto: "Los astros se alinean para que encuentres el calcetín desparejado en la lavadora.", tipo: "positivo" },
+            { texto: "Tu nivel de carisma hoy superará al de un gato bajo un rayo de sol.", tipo: "positivo" },
+            { texto: "La suerte sonríe a los audaces; hoy te tocará la línea de luz verde en todos los semáforos.", tipo: "positivo" },
+            { texto: "Una buena siesta inesperada cambiará el rumbo glorioso de tu tarde.", tipo: "positivo" },
+            { texto: "Tienes el superpoder secreto de recordar contraseñas absurdas a la primera.", tipo: "positivo" },
+            { texto: "Te espera una alegría gastronómica: la última croqueta del plato será para ti.", tipo: "positivo" },
+            { texto: "Hoy brillarás tanto que hasta el microondas te aplaudirá cuando caliente el café.", tipo: "positivo" },
+            { texto: "Tu paciencia será recompensada con una ración extra de paz mental.", tipo: "positivo" },
+            { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
+            { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
+            { texto: "El Excel de la oficina cobrará vida propia y hará todas tus tareas mientras tú te pides un cafelito.", tipo: "positivo" },
+            { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
+            { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
+            { texto: "Tu ordenador sufrirá una revelación mística y eliminará todos los virus y correos pesados de tu bandeja de entrada.", tipo: "positivo" },
+            { texto: "Descubrirás que el bolígrafo que perdiste hace tres años se ha multiplicado por diez en el fondo del cajón.", tipo: "positivo" },
+            { texto: "La máquina de café de la oficina decidirá hoy regalarte el mejor capuchino del mundo sin cobrarte un céntimo.", tipo: "positivo" },
+            { texto: "Tendrás una iluminación tan brillante durante el turno que inventarás la rueda cuadrada y todos te aplaudirán.", tipo: "positivo" },
+            { texto: "El compañero más pesado de la oficina se irá de vacaciones exótico-místicas a una isla sin cobertura.", tipo: "positivo" },
+            { texto: "Tu jefe valorará tanto tu gran capacidad para suspirar que te premiará con una jornada intensiva perpetua.", tipo: "positivo" },
+            { texto: "La impresora funcionará a la primera, sin atascarse y escaneando con la precisión de un láser suizo.", tipo: "positivo" },
+            { texto: "Alguien traerá bizcocho casero de chocolate y justo el primer trozo gigante con pepitas irá directo a tu mesa.", tipo: "positivo" },
+            { texto: "Tu productividad rozará el absoluto absoluto cero, pero aun así te darán la enhorabuena por 'optimizar recursos'.", tipo: "positivo" },
+            { texto: "El aire acondicionado de la oficina se pondrá milagrosamente a tu temperatura ideal exacta de confort.", tipo: "positivo" },
+            { texto: "Te darás cuenta de que el viernes es, en realidad, un jueves por error del calendario y tendrás un día extra de margen.", tipo: "positivo" },
+
+            // --- NEGATIVAS (30) ---
+            { texto: "Un pato te mirará fijamente en la calle. No le des explicaciones, solo saluda y... ¡huye!", tipo: "negativo" },
+            { texto: "Cuidado con los charcos invisibles y las esquinas traicioneras de los muebles.", tipo: "negativo" },
+            { texto: "Tu tostada caerá inexorablemente por el lado de la mermelada.", tipo: "negativo" },
+            { texto: "El Wi-Fi de tu casa decidirá hacer huelga justo en tu momento de mayor inspiración.", tipo: "negativo" },
+            { texto: "Irás a abrir la nevera con ilusión y descubrirás que alguien se comió el último trozo de tarta.", tipo: "negativo" },
+            { texto: "Pisarás una baldosa floja y te rociará el tobillo de agua misteriosa.", tipo: "negativo" },
+            { texto: "Te pondrás los cascos y el cable se enredará de una forma físicamente imposible de explicar.", tipo: "negativo" },
+            { texto: "Irás a tirar la basura y te darás cuenta de que se te olvidó cambiar la bolsa.", tipo: "negativo" },
+            { texto: "Un mosquito invisible te declarará la guerra justo cuando apagues la luz para dormir.", tipo: "negativo" },
+            { texto: "Te darás cuenta de que llevas la etiqueta de la camiseta por fuera a mitad de la calle.", tipo: "negativo" },
+            { texto: "El bolígrafo que necesitas desaparecerá de la faz de la tierra durante al menos tres horas.", tipo: "negativo" },
+            { texto: "Irás a enchufar el cargador del móvil y fallará de milímetros de forma desesperante.", tipo: "negativo" },
+            { texto: "Te atacará una pereza monumental justo cuando tengas que limpiar la cocina.", tipo: "negativo" },
+            { texto: "Sonará tu canción favorita y justo se cortará por culpa de un túnel o mala cobertura.", tipo: "negativo" },
+            { texto: "Tendrás la sensación absoluta de que te olvidas de algo importante, aunque no tengas ni idea de qué es.", tipo: "negativo" },
+            { texto: "Justo cuando le des a 'enviar' al informe más importante de la semana, se irá la luz en todo el polígono.", tipo: "negativo" },
+            { texto: "Tu jefe te llamará a su despacho a última hora del viernes solo para decirte: 'oye, una cosita rápida'.", tipo: "negativo" },
+            { texto: "Te responderán a un correo serio y crucial con un pulgar hacia arriba gigante en WhatsApp por error.", tipo: "negativo" },
+            { texto: "El proyector de la reunión importante decidirá proyectar en bucle un fondo de pantalla con un gatito triste.", tipo: "negativo" },
+            { texto: "Irás a coger el último trozo de pizza de la reunión de equipo y alguien se te adelantará por una décima de segundo.", tipo: "negativo" },
+            { texto: "Te tocará compartir mesa en la comida de empresa con el cuñado corporativo que habla en inglés técnico.", tipo: "negativo" },
+            { texto: "Tu silla de oficina empezará a emitir un chirrido acompasado que marcará el compás de tus nervios.", tipo: "negativo" },
+            { texto: "Te meterás en una llamada de Teams con la cámara abierta y un filtro ridículo de pato que no sabrás quitar.", tipo: "negativo" },
+            { texto: "El archivo en el que llevas trabajando tres horas sin guardar se llamará 'Documento_sin_titulo_final_FINAL_real.docx' y desaparecerá.", tipo: "negativo" },
+            { texto: "Tu compañero de al lado decidirá comer atún en lata con olor a puerto pesquero a las diez de la mañana.", tipo: "negativo" },
+            { texto: "Te asignarán un curso de prevención de riesgos laborales obligatorio y aburridísimo que dura exactamente cuatro horas.", tipo: "negativo" },
+            { texto: "El repartidor de paquetes tocará al telefonillo de la oficina justo cuando estés en mitad de una frase brillante.", tipo: "negativo" },
+            { texto: "Descubrirás que el café de la oficina sabe sospechosamente a agua de fregar los platos.", tipo: "negativo" },
+            { texto: "Te mandarán un Excel con ochenta pestañas y ninguna de ellas tendrá los datos donde se supone que deberían estar.", tipo: "negativo" },
+            { texto: "Te saldrá un padrastro en el dedo índice justo el día que más te toque teclear en el ordenador.", tipo: "negativo" }
+        ];
+
+        // Generar automáticamente las 30 galletas flotantes en el fondo
+        const fondo = document.getElementById("fondoGalletas");
+        for (let i = 0; i < 30; i++) {
+            const imgFlotante = document.createElement("img");
+            const imgAleatoria = imagenesGalletas[Math.floor(Math.random() * imagenesGalletas.length)];
+            imgFlotante.src = imgAleatoria;
+            imgFlotante.className = "galleta-flotante";
+            
+            imgFlotante.style.left = Math.random() * 100 + "vw";
+            imgFlotante.style.animationDuration = (8 + Math.random() * 8) + "s";
+            imgFlotante.style.animationDelay = (Math.random() * 5) + "s";
+            
+            fondo.appendChild(imgFlotante);
+        }
+
+        function cambiarGalletaInicial() {
+            const aleatoria = imagenesGalletas[Math.floor(Math.random() * imagenesGalletas.length)];
+            document.getElementById("galletaImg").src = aleatoria;
+        }
+        cambiarGalletaInicial();
+
+        document.body.addEventListener("click", function iniciarMusicaUnica() {
+            const musica = document.getElementById("audioMusica");
+            if (sonidoActivado && musica.paused) {
+                musica.play().catch(e => console.log("Música de fondo pendiente de interacción"));
+            }
+        }, { once: true });
+
+        function toggleSilencio() {
+            sonidoActivado = !sonidoActivado;
+            const btn = document.getElementById("btnSilenciar");
+            const musica = document.getElementById("audioMusica");
+
+            if (sonidoActivado) {
+                btn.innerText = "🔊 Sonido: Activado";
+                musica.play().catch(e => {});
+            } else {
+                btn.innerText = "🔇 Sonido: Silenciado";
+                musica.pause();
+            }
+        }
+
+        function reproducirAudio(audioId) {
+            if (!sonidoActivado) return;
+            const audio = document.getElementById(audioId);
+            audio.currentTime = 0;
+            audio.play().catch(error => console.log("Audio bloqueado:", error));
+        }
+
+        function abrirGalleta() {
+            reproducirAudio("audioCrujido");
+
+            const aleatorio = Math.floor(Math.random() * fortunas.length);
+            const fortunaSeleccionada = fortunas[aleatorio];
+
+            const zona = document.getElementById("zonaInteractiva");
+            const cajaMensaje = document.getElementById("mensaje");
+            const btnOtra = document.getElementById("btnOtra");
+
+            let htmlContenido = `<img src="galleta-abierta.png" class="img-galleta" alt="Galleta abierta">`;
+            
+            if (fortunaSeleccionada.tipo === "positivo") {
+                htmlContenido = `<img src="unicornio.png" class="img-personaje" alt="Unicornio feliz">` + htmlContenido;
+            } else {
+                htmlContenido = `<img src="oni.png" class="img-personaje" alt="Oni travieso">` + htmlContenido;
+            }
+
+            zona.innerHTML = htmlContenido;
+
+            setTimeout(() => {
+                cajaMensaje.innerText = fortunaSeleccionada.texto;
+                cajaMensaje.style.display = "block";
+                btnOtra.style.display = "inline-block";
+
+                if (fortunaSeleccionada.tipo === "positivo") {
+                    reproducirAudio("audioAplauso");
+                } else {
+                    reproducirAudio("audioPedo");
+                }
+            }, 400);
+        }
+
+        function reiniciar() {
+            const zona = document.getElementById("zonaInteractiva");
+            const imgAleatoria = imagenesGalletas[Math.floor(Math.random() * imagenesGalletas.length)];
+            zona.innerHTML = `<img id="galletaImg" class="img-galleta" src="${imgAleatoria}" alt="Galleta de la fortuna" onclick="abrirGalleta()">`;
+
+            const cajaMensaje = document.getElementById("mensaje");
+            cajaMensaje.innerText = "";
+            cajaMensaje.style.display = "none";
+            document.getElementById("btnOtra").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
