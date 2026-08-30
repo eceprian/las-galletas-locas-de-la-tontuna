@@ -189,7 +189,7 @@
     <!-- Botón flotante para activar/silenciar la música -->
     <button class="music-toggle" id="musicBtn" onclick="toggleMusic()" title="Silenciar / Activar música">🔇</button>
 
-    <!-- Elemento de audio en bucle con una pista alegre de fondo (libre de derechos) -->
+    <!-- Elemento de audio en bucle -->
     <audio id="bgMusic" loop>
         <source src="https://actions.google.com/sounds/v1/ambiences/playful_kids.ogg" type="audio/ogg">
         Tu navegador no soporta audio.
@@ -289,7 +289,7 @@
             { texto: "Irás a coger el último trozo de pizza de la reunión de equipo y alguien se te adelantará por una décima de segundo.", tipo: "negativo" },
             { texto: "Te tocará compartir mesa en la comida de empresa con el cuñado corporativo que habla en inglés técnico.", tipo: "negativo" },
             { texto: "Tu silla de oficina empezará a emitir un chirrido acompasado que marcará el compás de tus nervios.", tipo: "negativo" },
-            { texto: "Te meterás en una llamada de Teams con la cámara abierta y un filtro ridículo de pato que não sabrás quitar.", tipo: "negativo" },
+            { texto: "Te meterás en una llamada de Teams con la cámara abierta y un filtro ridículo de pato que no sabrás quitar.", tipo: "negativo" },
             { texto: "El archivo en el que llevas trabajando tres horas sin guardar se llamará 'Documento_sin_titulo_final_FINAL_real.docx' y desaparecerá.", tipo: "negativo" },
             { texto: "Tu compañero de al lado decidirá comer atún en lata con olor a puerto pesquero a las diez de la mañana.", tipo: "negativo" },
             { texto: "Te asignarán un curso de prevención de riesgos laborales obligatorio y aburridísimo que dura exactamente cuatro horas.", tipo: "negativo" },
@@ -303,12 +303,14 @@
         const music = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicBtn');
 
-        // Función para alternar la música manualmente con el botón flotante
         function toggleMusic() {
             if (music.paused) {
-                music.play();
-                musicBtn.innerText = "🎵";
-                musicStarted = true;
+                music.play().then(() => {
+                    musicBtn.innerText = "🎵";
+                    musicStarted = true;
+                }).catch(error => {
+                    console.log("Error al reproducir audio:", error);
+                });
             } else {
                 music.pause();
                 musicBtn.innerText = "🔇";
@@ -343,16 +345,6 @@
         };
 
         function openFortune() {
-            // Arranca la música automáticamente al primer clic si el usuario no la había activado
-            if (!musicStarted) {
-                music.play().then(() => {
-                    musicBtn.innerText = "🎵";
-                    musicStarted = true;
-                }).catch(e => {
-                    console.log("Audio bloqueado por el navegador hasta interacción");
-                });
-            }
-
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
             
             document.getElementById('fortuneText').innerText = randomFortune.texto;
