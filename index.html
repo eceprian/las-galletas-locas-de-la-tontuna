@@ -91,15 +91,66 @@
             100% { transform: translateY(-8px) translateX(-10px) rotate(-3deg); }
         }
 
-        /* Crédito debajo de la ventana celeste, centrado */
+        /* Bloque de contadores destacados (más grandes que los créditos) */
+        .stats-container {
+            max-width: 950px;
+            margin: 20px auto 10px auto;
+            font-family: 'Special Elite', monospace;
+            font-size: 15px; /* Más grande para que destaque */
+            color: #333;
+            text-align: center;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Crédito debajo de la ventana celeste, más discreto */
         .watermark-credit {
             max-width: 950px;
-            margin: 15px auto 0 auto;
+            margin: 5px auto 15px auto;
             font-family: 'Special Elite', monospace;
-            color: #555;
-            font-size: 14px;
-            opacity: 0.9;
+            color: #777;
+            font-size: 12px;
+            opacity: 0.8;
             text-align: center;
+        }
+
+        /* Sección para compartir de forma divertida */
+        .share-section {
+            max-width: 950px;
+            margin: 15px auto 0 auto;
+            background: #fff0f5;
+            border: 2px dashed #ffb6c1;
+            padding: 12px;
+            border-radius: 15px;
+            font-family: 'Special Elite', monospace;
+            color: #444;
+            text-align: center;
+        }
+
+        .share-btn {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: Arial, sans-serif;
+            margin-top: 8px;
+            transition: transform 0.2s, background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .share-btn:hover {
+            transform: scale(1.05);
+            background-color: #20ba5a;
         }
 
         /* Ventana emergente (Modal del resultado) */
@@ -217,15 +268,24 @@
         <!-- Las galletas se generan automáticamente aquí mediante JavaScript -->
     </div>
 
-    <!-- Crédito debajo de la ventana celeste y centrado -->
+    <!-- Contadores destacados (Más visibles que la factoría) -->
+    <div class="stats-container">
+        <div><span>Víctimas de la curiosidad: </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
+        <div style="margin-top: 6px;"><span>Galletas masacradas sin escrúpulo </span><span style="font-size: 13px; color: #d63384; font-weight: bold;">(¡ahí, acumulando karma!)</span>: <span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
+    </div>
+
+    <!-- Crédito debajo, más discreto -->
     <div class="watermark-credit">
         Una tontunez ideada por FACTORÍA BISTURÍ S.L.
     </div>
 
-    <!-- Contador de visitas local -->
-    <div style="margin-top: 15px; font-family: 'Special Elite', monospace; font-size: 13px; color: #777; text-align: center;">
-        <span>Valientes que han abierto galletas: </span>
-        <span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 2px;">...</span>
+    <!-- Sección divertida para compartir -->
+    <div class="share-section">
+        <div style="font-size: 13px; margin-bottom: 4px;">¿Te ha tocado una maldición o quieres que tus amigos sufran también?</div>
+        <div style="font-size: 12px; color: #666; margin-bottom: 8px;">(Aviso: Si no lo compartes, tu tostada caerá por el lado de la mermelada hoy).</div>
+        <button class="share-btn" onclick="shareOnWhatsApp()">
+            💬 ¡Compartir mis penas (o glorias) por WhatsApp!
+        </button>
     </div>
 
     <!-- Ventana emergente (Modal del resultado) -->
@@ -278,7 +338,7 @@
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
             { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
             { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "El Excel de la oficina cobrará vida propia y hará todas तुझ्या tareas mientras tú te pides un cafelito.", tipo: "positivo" },
+            { texto: "El Excel de la oficina cobrará vida propia y hará todas tus tareas mientras tú te pides un cafelito.", tipo: "positivo" },
             { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
             { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
             { texto: "Una nube con forma de alpargata te hará sombra exactamente en el tramo de asfalto más caluroso del día.", tipo: "positivo" },
@@ -390,20 +450,35 @@
                 skyArea.appendChild(img);
             }
 
-            // Sistema de contador local funcional (simulado y persistente por navegador)
+            // 1. Contador de Visitas ("Víctimas de la curiosidad")
             let visitas = localStorage.getItem('galletas_visitas');
             if (!visitas) {
-                visitas = 125; // Número base inicial de cortesía
+                visitas = 125; 
             } else {
                 visitas = parseInt(visitas) + 1;
             }
             localStorage.setItem('galletas_visitas', visitas);
             document.getElementById('visit-counter').innerText = visitas;
+
+            // 2. Cargar estado inicial de Galletas Rotas
+            let galletasRotas = localStorage.getItem('galletas_rotas');
+            if (!galletasRotas) {
+                galletasRotas = 412; 
+                localStorage.setItem('galletas_rotas', galletasRotas);
+            }
+            document.getElementById('cookie-counter').innerText = galletasRotas;
         };
 
         function openFortune() {
+            // Reproducir sonido de crujido
             soundCrush.currentTime = 0;
             soundCrush.play().catch(e => console.log("Audio crujido bloqueado"));
+
+            // Sumar 1 al contador de galletas rotas en localStorage
+            let galletasRotas = localStorage.getItem('galletas_rotas');
+            galletasRotas = galletasRotas ? parseInt(galletasRotas) + 1 : 413;
+            localStorage.setItem('galletas_rotas', galletasRotas);
+            document.getElementById('cookie-counter').innerText = galletasRotas;
 
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
             
@@ -430,6 +505,12 @@
 
         function closeModalDirect() {
             document.getElementById('fortuneModal').style.display = 'none';
+        }
+
+        // Función para compartir por WhatsApp de forma divertida
+        function shareOnWhatsApp() {
+            const texto = "¡Ven a romper galletas de la fortuna y a descubrir tus desgracias (o suertes) en este antro de tontuna! 🥠✨ Pruébalo aquí: " + window.location.href;
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
         }
     </script>
 
