@@ -189,7 +189,7 @@
     <!-- Botón flotante para activar/silenciar la música -->
     <button class="music-toggle" id="musicBtn" onclick="toggleMusic()" title="Silenciar / Activar música">🔇</button>
 
-    <!-- Tus archivos de audio personalizados -->
+    <!-- Archivos de audio locales -->
     <audio id="bgMusic" loop>
         <source src="musica-suave.mp3" type="audio/mpeg">
         Tu navegador no soporta audio.
@@ -207,9 +207,9 @@
         <source src="pedo.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Encabezado con tu diseño de título -->
+    <!-- Encabezado con imagen local -->
     <div class="header-container">
-        <img src="https://i.postimg.cc/2ywKtCgm/titulo.png" alt="Galletas Locas de la Tontuna">
+        <img src="titulo.png" alt="Galletas Locas de la Tontuna">
     </div>
 
     <!-- Área celeste interactiva donde flotarán las 30 galletitas -->
@@ -222,10 +222,10 @@
         Una tontunez ideada por FACTORÍA BISTURÍ S.L.
     </div>
 
-    <!-- Contador de visitas retro en tiempo real -->
+    <!-- Contador de visitas local -->
     <div style="margin-top: 15px; font-family: 'Special Elite', monospace; font-size: 13px; color: #777; text-align: center;">
         <span>Valientes que han abierto galletas: </span>
-        <span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 2px;">Cargando...</span>
+        <span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 2px;">...</span>
     </div>
 
     <!-- Ventana emergente (Modal del resultado) -->
@@ -235,7 +235,8 @@
 
             <h3 style="color: #d93838; margin-top: 10px;">¡Galleta Abierta!</h3>
             
-            <img src="https://i.postimg.cc/pLPSK5hz/galleta-abierta.png" class="modal-main-img" alt="Galleta Abierta">
+            <!-- Imagen local de la galleta abierta -->
+            <img src="galleta-abierta.png" class="modal-main-img" alt="Galleta Abierta">
             
             <div id="fortuneText" class="fortune-strip">Cargando augurio...</div>
 
@@ -244,11 +245,12 @@
     </div>
 
     <script>
+        /* Rutas locales de las galletitas flotantes */
         const cookieImages = [
-            "https://i.postimg.cc/NjQnR297/galletita01.png",
-            "https://i.postimg.cc/x19ZLNJR/galletita02.png",
-            "https://i.postimg.cc/vZGK5xgW/galletita03.png",
-            "https://i.postimg.cc/FHh60kdy/galletita04.png"
+            "galletita01.png",
+            "galletita02.png",
+            "galletita03.png",
+            "galletita04.png"
         ];
 
         const fortunas = [
@@ -276,7 +278,7 @@
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
             { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
             { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "El Excel de la oficina cobrará vida propia y hará todas tus tareas mientras tú te pides un cafelito.", tipo: "positivo" },
+            { texto: "El Excel de la oficina cobrará vida propia y hará todas तुझ्या tareas mientras tú te pides un cafelito.", tipo: "positivo" },
             { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
             { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
             { texto: "Una nube con forma de alpargata te hará sombra exactamente en el tramo de asfalto más caluroso del día.", tipo: "positivo" },
@@ -334,7 +336,7 @@
             { texto: "Yo que tú no lo haría. O sí. O no. ¡Huy! Eso va a doler.", tipo: "negativo" },
             { texto: "Tu gato te mirará a los ojos con ternura, empujará tu taza favorita al vacío muy despacio y parpadeará lento.", tipo: "negativo" },
             { texto: "Descubrirás que el café de la oficina sabe sospechosamente a agua de fregar los platos.", tipo: "negativo" },
-            { texto: "Tu hijo te pedirá que le dibujes un dinosaurio y, когда lo termines orgulloso, te dirá que parece una patata con patas.", tipo: "negativo" },
+            { texto: "Tu hijo te pedirá que le dibujes un dinosaurio y, cuando lo termines orgulloso, te dirá que parece una patata con patas.", tipo: "negativo" },
             { texto: "Te mandarán un Excel con ochenta pestañas y ninguna de ellas tendrá los datos donde se supone que deberían estar.", tipo: "negativo" },
             { texto: "¡Ay, no! ¡Cómo lo siento! No tengo ni valor para explicártelo. ¿Otra galletita?", tipo: "negativo" },
             { texto: "Tu perro elegirá el charco de barro más gigantesco del parque para revolcarse justo cinco minutos antes de volver a casa en coche.", tipo: "negativo" },
@@ -388,15 +390,15 @@
                 skyArea.appendChild(img);
             }
 
-            // Petición automática para sumar y mostrar visitas a tu proyecto
-            fetch('https://api.countapi.xyz/hit/eceprian-galletas-tontuna/visitas')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('visit-counter').innerText = data.value;
-                })
-                .catch(error => {
-                    document.getElementById('visit-counter').innerText = "42";
-                });
+            // Sistema de contador local funcional (simulado y persistente por navegador)
+            let visitas = localStorage.getItem('galletas_visitas');
+            if (!visitas) {
+                visitas = 125; // Número base inicial de cortesía
+            } else {
+                visitas = parseInt(visitas) + 1;
+            }
+            localStorage.setItem('galletas_visitas', visitas);
+            document.getElementById('visit-counter').innerText = visitas;
         };
 
         function openFortune() {
@@ -410,11 +412,11 @@
             const companionElement = document.getElementById('companionImg');
             
             if (randomFortune.tipo === "negativo") {
-                companionElement.src = "https://i.postimg.cc/2SCtnLbc/oni.png";
+                companionElement.src = "oni.png";
                 soundFart.currentTime = 0;
                 soundFart.play().catch(e => console.log("Audio pedo bloqueado"));
             } else {
-                companionElement.src = "https://i.postimg.cc/jSR1ynw3/unicornio.png";
+                companionElement.src = "unicornio.png";
                 soundApplause.currentTime = 0;
                 soundApplause.play().catch(e => console.log("Audio aplauso bloqueado"));
             }
