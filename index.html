@@ -36,7 +36,7 @@
         .header-mobile {
             display: none;
             width: 100%;
-            max-width: 280px;
+            max-width: 420px; /* Título de móvil grande y vistoso */
             height: auto;
             margin: 0 auto;
         }
@@ -67,7 +67,7 @@
             background: #e04343;
         }
 
-        /* Área de juego principal (El cielo celeste con sus 30 galletitas flotantes) */
+        /* Área de juego principal (El cielo celeste con sus galletitas flotantes) */
         .play-area {
             position: relative;
             background-color: #d4f0fc;
@@ -80,24 +80,25 @@
             border: 4px dashed #ff94b8;
         }
 
-        /* Galletas flotantes animadas */
+        /* Galletas flotantes animadas con más dinamismo */
         .floating-cookie {
             position: absolute;
             cursor: pointer;
             object-fit: contain;
             transition: transform 0.2s;
-            animation: floatClouds 6s ease-in-out infinite alternate;
+            animation: floatClouds 3.5s ease-in-out infinite alternate;
         }
 
         .floating-cookie:hover {
-            transform: scale(1.2) rotate(8deg);
+            transform: scale(1.25) rotate(12deg);
             z-index: 10;
         }
 
         @keyframes floatClouds {
             0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) translateX(10px) rotate(3deg); }
-            100% { transform: translateY(-8px) translateX(-10px) rotate(-3deg); }
+            33% { transform: translateY(-22px) translateX(12px) rotate(6deg); }
+            66% { transform: translateY(12px) translateX(-15px) rotate(-6deg); }
+            100% { transform: translateY(-18px) translateX(8px) rotate(4deg); }
         }
 
         /* Bloque de contadores destacados (más grandes que los créditos) */
@@ -257,7 +258,7 @@
                 display: block;
             }
             .play-area {
-                height: 420px; /* Un poco más compacto para móviles */
+                height: 420px;
             }
             .music-toggle {
                 top: 10px;
@@ -469,6 +470,7 @@
         window.onload = function() {
             const skyArea = document.getElementById('skyArea');
             const totalCookies = 30;
+            const isMobile = window.innerWidth <= 768;
 
             for (let i = 0; i < totalCookies; i++) {
                 const img = document.createElement('img');
@@ -477,9 +479,15 @@
 
                 const randomTop = Math.random() * 80;
                 const randomLeft = Math.random() * 90;
-                const randomSize = Math.floor(Math.random() * 51) + 70; 
-                const randomDuration = (Math.random() * 4 + 4).toFixed(1);
-                const randomDelay = (Math.random() * 5).toFixed(1);
+                
+                // Tamaños adaptados: en móvil entre 40px y 70px (reducidas al 75% o más), en PC entre 70px y 120px
+                const randomSize = isMobile 
+                    ? Math.floor(Math.random() * 31) + 40 
+                    : Math.floor(Math.random() * 51) + 70; 
+
+                // Animaciones más rápidas y dinámicas (entre 2.5s y 4.5s)
+                const randomDuration = (Math.random() * 2 + 2.5).toFixed(1);
+                const randomDelay = (Math.random() * 4).toFixed(1);
 
                 img.style.top = randomTop + '%';
                 img.style.left = randomLeft + '%';
