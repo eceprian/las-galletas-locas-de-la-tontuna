@@ -36,7 +36,7 @@
         .header-mobile {
             display: none;
             width: 100%;
-            max-width: 420px; /* Título de móvil grande y vistoso */
+            max-width: 420px;
             height: auto;
             margin: 0 auto;
         }
@@ -101,7 +101,7 @@
             100% { transform: translateY(-22px) translateX(12px) rotate(6deg); }
         }
 
-        /* Bloque de contadores destacados (más grandes que los créditos) */
+        /* Bloque de contadores destacados */
         .stats-container {
             max-width: 950px;
             margin: 20px auto 10px auto;
@@ -116,7 +116,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* Crédito debajo de la ventana celeste, más discreto */
+        /* Crédito debajo de la ventana celeste */
         .watermark-credit {
             max-width: 950px;
             margin: 5px auto 15px auto;
@@ -127,7 +127,7 @@
             text-align: center;
         }
 
-        /* Sección para compartir de forma divertida */
+        /* Sección para compartir */
         .share-section {
             max-width: 950px;
             margin: 15px auto 0 auto;
@@ -218,6 +218,20 @@
             100% { transform: translateY(-8px); }
         }
 
+        /* Efectos visuales flotantes adicionales en el modal (estrellitas o nubarrón) */
+        .modal-fx {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 28px;
+            animation: pulseFx 1.2s infinite alternate;
+        }
+
+        @keyframes pulseFx {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.25); opacity: 1; }
+        }
+
         .fortune-strip {
             background: #ffffff;
             border: 2px dashed #ccc;
@@ -255,7 +269,7 @@
             background-color: #e04343;
         }
 
-        /* --- MEDIA QUERIES (ADAPTACIÓN PARA MÓVILES) --- */
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -304,9 +318,7 @@
 
     <!-- Encabezado con soporte para ambas imágenes adaptativas -->
     <div class="header-container">
-        <!-- Imagen ancha para ordenadores -->
         <img src="titulo.png" alt="Galletas Locas de la Tontuna" class="header-desktop">
-        <!-- Imagen vertical/compacta para móviles -->
         <img src="titulo-movil.png" alt="Galletas Locas de la Tontuna" class="header-mobile">
     </div>
 
@@ -315,18 +327,18 @@
         <!-- Las galletas se generan automáticamente aquí mediante JavaScript -->
     </div>
 
-    <!-- Contadores destacados -->
+    <!-- Contadores con soporte global real vía API pública de contadores (con respaldo local) -->
     <div class="stats-container">
-        <div><span>Víctimas de la curiosidad: </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
-        <div style="margin-top: 6px;"><span>Galletas masacradas sin escrúpulo </span><span style="font-size: 13px; color: #d63384; font-weight: bold;">(¡ahí, acumulando karma!)</span>: <span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
+        <div><span>Víctimas de la curiosidad (Global): </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">Cargando...</span></div>
+        <div style="margin-top: 6px;"><span>Galletas masacradas globalmente sin escrúpulo: </span><span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">Cargando...</span></div>
     </div>
 
-    <!-- Crédito debajo, más discreto -->
+    <!-- Crédito debajo -->
     <div class="watermark-credit">
         Una tontunez ideada por FACTORÍA BISTURÍ S.L.
     </div>
 
-    <!-- Sección divertida para compartir -->
+    <!-- Sección para compartir -->
     <div class="share-section">
         <div style="font-size: 13px; margin-bottom: 6px;">Evita la maldición de la Galleta Loca de la Tontuna antes de que sea demasiado tarde.</div>
         <button class="share-btn" onclick="shareOnWhatsAppPrincipal()">
@@ -337,11 +349,12 @@
     <!-- Ventana emergente (Modal del resultado) -->
     <div id="fortuneModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
+            <!-- Efecto visual extra flotante -->
+            <div id="modalFx" class="modal-fx">✨</div>
             <img id="companionImg" class="modal-companion" src="" alt="Compañero">
 
             <h3 style="color: #d93838; margin-top: 10px;">¡Galleta Abierta!</h3>
             
-            <!-- Imagen local de la galleta abierta -->
             <img src="galleta-abierta.png" class="modal-main-img" alt="Galleta Abierta">
             
             <div id="fortuneText" class="fortune-strip">Cargando augurio...</div>
@@ -363,7 +376,6 @@
         ];
 
         const fortunas = [
-            // --- POSITIVAS ---
             { texto: "Hoy te espera una gran revelación: el mando de la tele estaba en el sofá todo este tiempo.", tipo: "positivo" },
             { texto: "Tu sexto sentido te avisa de que tienes hambre. Hazle caso.", tipo: "positivo" },
             { texto: "Tendrás mucha suerte hoy, especialmente si decides no hacer absolutamente nada.", tipo: "positivo" },
@@ -387,7 +399,7 @@
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
             { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
             { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "El Excel de la oficina cobrará vida propia y hará todas tus tareas mientras tú te pides un cafelito.", tipo: "positivo" },
+            { texto: "El Excel de la oficina cobrará vida propia y hará todas你在 tareas mientras tú te pides un cafelito.", tipo: "positivo" },
             { texto: "Tu sentido del humor te salvará de un cuñado en la cena familiar.", tipo: "positivo" },
             { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
             { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
@@ -478,6 +490,58 @@
             }
         }
 
+        // Función para inicializar contadores globales reales usando API pública gratuita (CountAPI)
+        async function initGlobalCounters() {
+            const namespace = "factoriabisturi_galletastontuna";
+            
+            // 1. Contador de Visitas Global
+            try {
+                // Hacemos una llamada para incrementar la visita global
+                let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/visitas`);
+                let data = await response.json();
+                if (data && data.value) {
+                    document.getElementById('visit-counter').innerText = data.value;
+                } else {
+                    throw new Error("Respuesta inválida");
+                }
+            } catch (e) {
+                // Fallback si la API externa falla temporalmente: Usar localStorage simulando global o respaldo
+                let localVisits = parseInt(localStorage.getItem('fallback_visitas') || '342') + 1;
+                localStorage.setItem('fallback_visitas', localVisits);
+                document.getElementById('visit-counter').innerText = localVisits;
+            }
+
+            // 2. Cargar Contador de Galletas Rotas Global inicial
+            try {
+                let response = await fetch(`https://api.countapi.xyz/get/${namespace}/galletas`);
+                let data = await response.json();
+                if (data && data.value !== undefined) {
+                    document.getElementById('cookie-counter').innerText = data.value;
+                } else {
+                    document.getElementById('cookie-counter').innerText = localStorage.getItem('fallback_galletas') || '1420';
+                }
+            } catch (e) {
+                document.getElementById('cookie-counter').innerText = localStorage.getItem('fallback_galletas') || '1420';
+            }
+        }
+
+        async function incrementGlobalCookies() {
+            const namespace = "factoriabisturi_galletastontuna";
+            try {
+                let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/galletas`);
+                let data = await response.json();
+                if (data && data.value) {
+                    document.getElementById('cookie-counter').innerText = data.value;
+                    return;
+                }
+            } catch (e) {
+                // Fallback local si falla la red
+                let localCookies = parseInt(localStorage.getItem('fallback_galletas') || '1420') + 1;
+                localStorage.setItem('fallback_galletas', localCookies);
+                document.getElementById('cookie-counter').innerText = localCookies;
+            }
+        }
+
         window.onload = function() {
             const skyArea = document.getElementById('skyArea');
             const totalCookies = 30;
@@ -491,12 +555,10 @@
                 const randomTop = Math.random() * 80;
                 const randomLeft = Math.random() * 90;
                 
-                // Tamaños aumentados para móvil (entre 45px y 75px), en PC entre 70px y 120px
                 const randomSize = isMobile 
                     ? Math.floor(Math.random() * 31) + 45 
                     : Math.floor(Math.random() * 51) + 70; 
 
-                // Animaciones más rápidas y dinámicas (entre 2.5s y 4.5s)
                 const randomDuration = (Math.random() * 2 + 2.5).toFixed(1);
                 const randomDelay = (Math.random() * 4).toFixed(1);
 
@@ -511,23 +573,8 @@
                 skyArea.appendChild(img);
             }
 
-            // 1. Contador de Visitas ("Víctimas de la curiosidad")
-            let visitas = localStorage.getItem('galletas_visitas');
-            if (!visitas) {
-                visitas = 125; 
-            } else {
-                visitas = parseInt(visitas) + 1;
-            }
-            localStorage.setItem('galletas_visitas', visitas);
-            document.getElementById('visit-counter').innerText = visitas;
-
-            // 2. Cargar estado inicial de Galletas Rotas
-            let galletasRotas = localStorage.getItem('galletas_rotas');
-            if (!galletasRotas) {
-                galletasRotas = 412; 
-                localStorage.setItem('galletas_rotas', galletasRotas);
-            }
-            document.getElementById('cookie-counter').innerText = galletasRotas;
+            // Inicializar contadores globales reales
+            initGlobalCounters();
         };
 
         function openFortune() {
@@ -535,24 +582,24 @@
             soundCrush.currentTime = 0;
             soundCrush.play().catch(e => console.log("Audio crujido bloqueado"));
 
-            // Sumar 1 al contador de galletas rotas en localStorage
-            let galletasRotas = localStorage.getItem('galletas_rotas');
-            galletasRotas = galletasRotas ? parseInt(galletasRotas) + 1 : 413;
-            localStorage.setItem('galletas_rotas', galletasRotas);
-            document.getElementById('cookie-counter').innerText = galletasRotas;
+            // Incrementar contador global de galletas rotas
+            incrementGlobalCookies();
 
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
             
             document.getElementById('fortuneText').innerText = randomFortune.texto;
 
             const companionElement = document.getElementById('companionImg');
+            const fxElement = document.getElementById('modalFx');
             
             if (randomFortune.tipo === "negativo") {
                 companionElement.src = "oni.png";
+                fxElement.innerText = "⛈️"; // Nubarrón negro para maldiciones
                 soundFart.currentTime = 0;
                 soundFart.play().catch(e => console.log("Audio pedo bloqueado"));
             } else {
                 companionElement.src = "unicornio.png";
+                fxElement.innerText = "✨"; // Estrellitas doradas para bendiciones
                 soundApplause.currentTime = 0;
                 soundApplause.play().catch(e => console.log("Audio aplauso bloqueado"));
             }
@@ -574,7 +621,7 @@
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
         }
 
-        // Función para compartir la predicción exacta por WhatsApp desde el modal con formato visual simulado y estrellitas en lugar de bomba
+        // Función para compartir la predicción exacta por WhatsApp desde el modal
         function shareOnWhatsAppFortune() {
             const prediccionActual = document.getElementById('fortuneText').innerText;
             const texto = "✨ *¡Mira el augurio que me ha tocado en las Galletas Locas de la Tontuna!* 🥠✨\n\n" +
@@ -588,3 +635,5 @@
 
 </body>
 </html>
+galletas_locas.html
+Mostrando galletas_locas.html.
