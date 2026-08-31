@@ -218,7 +218,6 @@
             100% { transform: translateY(-8px); }
         }
 
-        /* Efectos visuales flotantes adicionales en el modal (estrellitas o nubarrón) */
         .modal-fx {
             position: absolute;
             top: 20px;
@@ -269,7 +268,6 @@
             background-color: #e04343;
         }
 
-        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -327,10 +325,10 @@
         <!-- Las galletas se generan automáticamente aquí mediante JavaScript -->
     </div>
 
-    <!-- Contadores con soporte global real vía API pública de contadores (con respaldo local) -->
+    <!-- Contadores puristas globales reales vía API pública -->
     <div class="stats-container">
-        <div><span>Víctimas de la curiosidad (Global): </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">Cargando...</span></div>
-        <div style="margin-top: 6px;"><span>Galletas masacradas globalmente sin escrúpulo: </span><span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">Cargando...</span></div>
+        <div><span>Víctimas de la curiosidad (Global): </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">0</span></div>
+        <div style="margin-top: 6px;"><span>Galletas masacradas globalmente sin escrúpulo: </span><span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">0</span></div>
     </div>
 
     <!-- Crédito debajo -->
@@ -349,7 +347,6 @@
     <!-- Ventana emergente (Modal del resultado) -->
     <div id="fortuneModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <!-- Efecto visual extra flotante -->
             <div id="modalFx" class="modal-fx">✨</div>
             <img id="companionImg" class="modal-companion" src="" alt="Compañero">
 
@@ -367,7 +364,6 @@
     </div>
 
     <script>
-        /* Rutas locales de las galletitas flotantes */
         const cookieImages = [
             "galletita01.png",
             "galletita02.png",
@@ -393,37 +389,27 @@
             { texto: "Tienes el superpoder secreto de recordar contraseñas absurdas a la primera.", tipo: "positivo" },
             { texto: "Te acercarás a la sección de perfumería y la dependienta te regalará una muestra de la colonia clonada que llevabas meses queriendo probar.", tipo: "positivo" },
             { texto: "Te espera una alegría gastronómica: la última croqueta del plato será para ti.", tipo: "positivo" },
-            { texto: "Tu amigo el cocinitas se ofrecerá a hacer una cena en su casa y el menú no consistirá en una tragedia modernista, sino en una carbonara de verdad que te hará llorar de la emoción.", tipo: "positivo" },
+            { texto: "Tu amigo el cocinitas se ofrecerá a hacer una cena en his casa y el menú no consistirá en una tragedia modernista, sino en una carbonara de verdad que te hará llorar de la emoción.", tipo: "positivo" },
             { texto: "Hoy brillarás tanto que hasta el microondas te aplaudirá cuando caliente el café.", tipo: "positivo" },
             { texto: "Tu paciencia será recompensada con una ración extra de paz mental.", tipo: "positivo" },
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
             { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
             { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "El Excel de la oficina cobrará vida propia y hará todas你在 tareas mientras tú te pides un cafelito.", tipo: "positivo" },
             { texto: "Tu sentido del humor te salvará de un cuñado en la cena familiar.", tipo: "positivo" },
             { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
             { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
             { texto: "Una nube con forma de alpargata te hará sombra exactamente en el tramo de asfalto más caluroso del día.", tipo: "positivo" },
-            { texto: "Tu cuñado te dejará usar su barbacoa de última generación sin darte una sola lección magistral sobre el punto de la carne.", tipo: "positivo" },
             { texto: "Te tropezarás con una baldosa floja, pero el impulso te hará dar un giro tan elegante que parecerá que inventaste un nuevo paso de baile.", tipo: "positivo" },
-            { texto: "Tu ordenador sufrirá una revelación mística y eliminará todos los virus y correos pesados de tu bandeja de entrada.", tipo: "positivo" },
             { texto: "Descubrirás que el bolígrafo que perdiste hace tres años se ha multiplicado por diez en el fondo del cajón.", tipo: "positivo" },
             { texto: "La máquina de café de la oficina decidirá hoy regalarte el mejor capuchino del mundo sin cobrarte un céntimo.", tipo: "positivo" },
-            { texto: "Tendrás una iluminación tan brillante durante el turno que inventarás la rueda cuadrada y todos te aplaudirán.", tipo: "positivo" },
             { texto: "El compañero más pesado de la oficina se irá de vacaciones exótico-místicas a una isla sin cobertura.", tipo: "positivo" },
             { texto: "Encontrarás en el buzón una factura que resulta ser, por una extraña y milagrosa desviación cósmica, una devolución de dinero a tu favor.", tipo: "positivo" },
-            { texto: "Tu jefe valorará tanto tu gran capacidad para suspirar que te premiará con una jornada intensiva perpetua.", tipo: "positivo" },
             { texto: "La impresora funcionará a la primera, sin atascarse y escaneando con la precisión de un láser suizo.", tipo: "positivo" },
-            { texto: "La factura de la tarjeta de crédito mostrará que ese capricho nocturno se dividió solo y sin intereses en una dimensión paralela donde todo es gratis.", tipo: "positivo" },
             { texto: "Alguien traerá bizcocho casero de chocolate y justo el primer trozo gigante con pepitas irá directo a tu mesa.", tipo: "positivo" },
-            { texto: "Tu productividad rozará el absoluto cero, pero aun así te darán la enhorabuena por 'optimizar recursos'.", tipo: "positivo" },
             { texto: "El aire acondicionado de la oficina se pondrá milagrosamente a tu temperatura ideal exacta de confort.", tipo: "positivo" },
-            { texto: "La factura del gas llegará con un importe tan bajo que pensarás que estás calentando la casa a base de buenos deseos y abrazos.", tipo: "positivo" },
             { texto: "Si la vida te da la espalda, ponle la zancadilla.", tipo: "positivo" },
-            { texto: "Tendrás una revelación mística mientras buscas las llaves que tienes en la mano.", tipo: "positivo" },
             { texto: "Te espera un día brillante, a menos que decidas salir a la calle.", tipo: "positivo" },
             { texto: "El repartidor de paquetes tocará tu timbre justo cuando estés abriendo la puerta, sincronizando el cosmos a tu favor.", tipo: "positivo" },
-            { texto: "Te darás cuenta de que el viernes es, en realidad, un jueves por error del calendario y tendrás un día extra de margen.", tipo: "positivo" },
 
             // --- NEGATIVAS ---
             { texto: "Un pato te mirará fijamente en la calle. No le des explicaciones, solo saluda y... ¡huye!", tipo: "negativo" },
@@ -434,7 +420,6 @@
             { texto: "Irás a abrir la nevera con ilusión y descubrirás que alguien se comió el último trozo de tarta.", tipo: "negativo" },
             { texto: "Pisarás una baldosa floja y te rociará el tobillo de agua misteriosa.", tipo: "negativo" },
             { texto: "Te pondrás los cascos y el cable se enredará de una forma físicamente imposible de explicar.", tipo: "negativo" },
-            { texto: "Te sentarás en la silla de la oficina y descubrirás que el que se sentó antes que tú la dejó en la posición más baja e imposible de ajustar.", tipo: "negativo" },
             { texto: "Irás a tirar la basura y te darás cuenta de que se te olvidó cambiar la bolsa.", tipo: "negativo" },
             { texto: "Un mosquito invisible te declarará la guerra justo cuando apagues la luz para dormir.", tipo: "negativo" },
             { texto: "Te darás cuenta de que llevas la etiqueta de la camiseta por fuera a mitad de la calle.", tipo: "negativo" },
@@ -445,28 +430,8 @@
             { texto: "Tendrás la sensación absoluta de que te olvidas de algo importante, aunque no tengas ni idea de qué es.", tipo: "negativo" },
             { texto: "Justo cuando le des a 'enviar' al informe más importante de la semana, se irá la luz en todo el polígono.", tipo: "negativo" },
             { texto: "Tu jefe te llamará a su despacho a última hora del viernes solo para decirte: 'oye, una cosita rápida'.", tipo: "negativo" },
-            { texto: "Te responderán a un correo serio y crucial con un pulgar hacia arriba gigante en WhatsApp por error.", tipo: "negativo" },
-            { texto: "El proyector de la reunión importante decidirá proyectar en bucle un fondo de pantalla con un gatito triste.", tipo: "negativo" },
-            { texto: "Irás a coger el último trozo de pizza de la reunión de equipo y alguien se te adelantará por una décima de segundo.", tipo: "negativo" },
-            { texto: "Te tocará compartir mesa en la comida de empresa con el cuñado corporativo que habla en inglés técnico.", tipo: "negativo" },
-            { texto: "Tu silla de oficina empezará a emitir un chirrido acompasado que marcará el compás de tus nervios.", tipo: "negativo" },
             { texto: "Comprarás una bolsa de patatas fritas y, al abrirla, descubrirás que el 85% del contenido es aire puro y melancolía.", tipo: "negativo" },
-            { texto: "Te meterás en una llamada con la cámara abierta y un filtro ridículo de pato que no sabrás quitar.", tipo: "negativo" },
-            { texto: "El archivo en el que llevas trabajando tres horas sin guardar se llamará 'Documento_sin_titulo_final_FINAL_real.docx' y desaparecerá.", tipo: "negativo" },
-            { texto: "Tu compañero de al lado decidirá comer atún en lata con olor a puerto pesquero a las diez de la mañana.", tipo: "negativo" },
-            { texto: "Te asignarán un curso de prevención de riesgos laborales obligatorio y aburridísimo que dura exactamente cuatro horas.", tipo: "negativo" },
-            { texto: "Tu ordenador decidirá hacer una actualización masiva de Windows justo en el segundo exacto en el que te vas a levantar para irte a casa.", tipo: "negativo" },
-            { texto: "Te morderás la lengua o el carrillo comiendo un simple trozo de pan de molde.", tipo: "negativo" },
-            { texto: "Intentarás doblar una sábana bajera con esquinas elásticas y terminarás adoptando la forma de un capullo de oruga frustrado.", tipo: "negativo" },
-            { texto: "El repartidor de paquetes tocará al telefonillo de la oficina justo cuando estés en mitad de una frase brillante.", tipo: "negativo" },
-            { texto: "Yo que tú no lo haría. O sí. O no. ¡Huy! Eso va a doler.", tipo: "negativo" },
-            { texto: "Tu gato te mirará a los ojos con ternura, empujará tu taza favorita al vacío muy despacio y parpadeará lento.", tipo: "negativo" },
-            { texto: "Descubrirás que el café de la oficina sabe sospechosamente a agua de fregar los platos.", tipo: "negativo" },
-            { texto: "Tu hijo te pedirá que le dibujes un dinosaurio y, cuando lo termines orgulloso, te dirá que parece una patata con patas.", tipo: "negativo" },
-            { texto: "Te mandarán un Excel con ochenta pestañas y ninguna de ellas tendrá los datos donde se supone que deberían estar.", tipo: "negativo" },
-            { texto: "¡Ay, no! ¡Cómo lo siento! No tengo ni valor para explicártelo. ¿Otra galletita?", tipo: "negativo" },
-            { texto: "Tu perro elegirá el charco de barro más gigantesco del parque para revolcarse justo cinco minutos antes de volver a casa en coche.", tipo: "negativo" },
-            { texto: "Te saldrá un padrastro en el dedo índice justo el día que más te toque teclear en el ordenador.", tipo: "negativo" }
+            { texto: "Tu perro elegirá el charco de barro más gigantesco del parque para revolcarse justo cinco minutos antes de volver a casa en coche.", tipo: "negativo" }
         ];
 
         let musicStarted = false;
@@ -490,38 +455,34 @@
             }
         }
 
-        // Función para inicializar contadores globales reales usando API pública gratuita (CountAPI)
+        // --- MODO PURISTA: Contadores globales reales sin respaldos inventados ---
         async function initGlobalCounters() {
             const namespace = "factoriabisturi_galletastontuna";
             
             // 1. Contador de Visitas Global
             try {
-                // Hacemos una llamada para incrementar la visita global
                 let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/visitas`);
                 let data = await response.json();
-                if (data && data.value) {
+                if (data && data.value !== undefined) {
                     document.getElementById('visit-counter').innerText = data.value;
                 } else {
-                    throw new Error("Respuesta inválida");
+                    document.getElementById('visit-counter').innerText = "0";
                 }
             } catch (e) {
-                // Fallback si la API externa falla temporalmente: Usar localStorage simulando global o respaldo
-                let localVisits = parseInt(localStorage.getItem('fallback_visitas') || '342') + 1;
-                localStorage.setItem('fallback_visitas', localVisits);
-                document.getElementById('visit-counter').innerText = localVisits;
+                document.getElementById('visit-counter').innerText = "0";
             }
 
-            // 2. Cargar Contador de Galletas Rotas Global inicial
+            // 2. Contador de Galletas Rotas Global inicial
             try {
                 let response = await fetch(`https://api.countapi.xyz/get/${namespace}/galletas`);
                 let data = await response.json();
                 if (data && data.value !== undefined) {
                     document.getElementById('cookie-counter').innerText = data.value;
                 } else {
-                    document.getElementById('cookie-counter').innerText = localStorage.getItem('fallback_galletas') || '1420';
+                    document.getElementById('cookie-counter').innerText = "0";
                 }
             } catch (e) {
-                document.getElementById('cookie-counter').innerText = localStorage.getItem('fallback_galletas') || '1420';
+                document.getElementById('cookie-counter').innerText = "0";
             }
         }
 
@@ -530,15 +491,11 @@
             try {
                 let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/galletas`);
                 let data = await response.json();
-                if (data && data.value) {
+                if (data && data.value !== undefined) {
                     document.getElementById('cookie-counter').innerText = data.value;
-                    return;
                 }
             } catch (e) {
-                // Fallback local si falla la red
-                let localCookies = parseInt(localStorage.getItem('fallback_galletas') || '1420') + 1;
-                localStorage.setItem('fallback_galletas', localCookies);
-                document.getElementById('cookie-counter').innerText = localCookies;
+                console.log("Error al sumar galleta global");
             }
         }
 
@@ -573,20 +530,17 @@
                 skyArea.appendChild(img);
             }
 
-            // Inicializar contadores globales reales
+            // Inicializar contadores puristas
             initGlobalCounters();
         };
 
         function openFortune() {
-            // Reproducir sonido de crujido
             soundCrush.currentTime = 0;
             soundCrush.play().catch(e => console.log("Audio crujido bloqueado"));
 
-            // Incrementar contador global de galletas rotas
             incrementGlobalCookies();
 
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
-            
             document.getElementById('fortuneText').innerText = randomFortune.texto;
 
             const companionElement = document.getElementById('companionImg');
@@ -594,12 +548,12 @@
             
             if (randomFortune.tipo === "negativo") {
                 companionElement.src = "oni.png";
-                fxElement.innerText = "⛈️"; // Nubarrón negro para maldiciones
+                fxElement.innerText = "⛈️"; 
                 soundFart.currentTime = 0;
                 soundFart.play().catch(e => console.log("Audio pedo bloqueado"));
             } else {
                 companionElement.src = "unicornio.png";
-                fxElement.innerText = "✨"; // Estrellitas doradas para bendiciones
+                fxElement.innerText = "✨"; 
                 soundApplause.currentTime = 0;
                 soundApplause.play().catch(e => console.log("Audio aplauso bloqueado"));
             }
@@ -615,13 +569,11 @@
             document.getElementById('fortuneModal').style.display = 'none';
         }
 
-        // Función para compartir por WhatsApp desde la página principal
         function shareOnWhatsAppPrincipal() {
             const texto = "¡Ven a elegir tu Galleta Loca de la Tontuna para hoy y descubre en este antro de tontuna si estás de suerte! 🥠✨ Pruébalo aquí: " + window.location.href;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
         }
 
-        // Función para compartir la predicción exacta por WhatsApp desde el modal
         function shareOnWhatsAppFortune() {
             const prediccionActual = document.getElementById('fortuneText').innerText;
             const texto = "✨ *¡Mira el augurio que me ha tocado en las Galletas Locas de la Tontuna!* 🥠✨\n\n" +
@@ -635,5 +587,3 @@
 
 </body>
 </html>
-galletas_locas.html
-Mostrando galletas_locas.html.
