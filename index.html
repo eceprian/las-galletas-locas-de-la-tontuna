@@ -361,68 +361,31 @@
             "galletita04.png"
         ];
 
-        const fortunas = [
-            { texto: "Hoy te espera una gran revelación: el mando de la tele estaba en el sofá todo este tiempo.", tipo: "positivo" },
-            { texto: "Tu sexto sentido te avisa de que tienes hambre. Hazle caso.", tipo: "positivo" },
-            { texto: "Tendrás mucha suerte hoy, especialmente si decides no hacer absolutamente nada.", tipo: "positivo" },
-            { texto: "Alguien pensará en ti hoy con cariño... o tal vez solo se acordará de que le debes un café.", tipo: "positivo" },
-            { texto: "Tu cartera sufrirá una metamorfosis mágica: un billete olvidado aparecerá en tu chaqueta.", tipo: "positivo" },
-            { texto: "El grifo que goteaba desde hacía tres semanas se arrepentirá de sus actos y dejará de gotear justo en el momento en que vayas a llamar al fontanero.", tipo: "positivo" },
-            { texto: "Se avecina un gran logro personal: conseguirás abrir un paquete de plástico duro sin romperte las uñas.", tipo: "positivo" },
-            { texto: "Los astros se alinean para que encuentres el calcetín desparejado en la lavadora.", tipo: "positivo" },
-            { texto: "Tu nivel de carisma hoy superará al de un gato bajo un rayo de sol.", tipo: "positivo" },
-            { texto: "Agarrarás una bolsa de plástico de la sección de verduras y se abrirá al primer soplido o intento, sin que tengas que lamerte el dedo mil veces buscando el borde.", tipo: "positivo" },
-            { texto: "La suerte sonríe a los audaces; hoy te tocará la línea de luz verde en todos los semáforos.", tipo: "positivo" },
-            { texto: "Tu planta de interior favorita sacará un brote nuevo y brillante, demostrando que al menos alguien en esa casa está creciendo con éxito.", tipo: "positivo" }, 
-            { texto: "Una buena siesta inesperada cambiará el rumbo glorioso de tu tarde.", tipo: "positivo" },
-            { texto: "La puerta de entrada abrirá a la primera, sin que tengas que hacer juego de muñeca, balancearte, ni jurar en arameo.", tipo: "positivo" },
-            { texto: "Tienes el superpoder secreto de recordar contraseñas absurdas a la primera.", tipo: "positivo" },
-            { texto: "Te acercarás a la sección de perfumería y la dependienta te regalará una muestra de la colonia clonada que llevabas meses queriendo probar.", tipo: "positivo" },
-            { texto: "Te espera una alegría gastronómica: la última croqueta del plato será para ti.", tipo: "positivo" },
-            { texto: "Tu amigo el cocinitas se ofrecerá a hacer una cena en su casa y el menú no consistirá en una tragedia modernista, sino en una carbonara de verdad que te hará llorar de la emoción.", tipo: "positivo" },
-            { texto: "Hoy brillarás tanto que hasta el microondas te aplaudirá cuando caliente el café.", tipo: "positivo" },
-            { texto: "Tu paciencia será recompensada con una ración extra de paz mental.", tipo: "positivo" },
-            { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
-            { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
-            { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "Tu sentido del humor te salvará de un cuñado en la cena familiar.", tipo: "positivo" },
-            { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
-            { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
-            { texto: "Una nube con forma de alpargata te hará sombra exactamente en el tramo de asfalto más caluroso del día.", tipo: "positivo" },
-            { texto: "Te tropezarás con una baldosa floja, pero el impulso te hará dar un giro tan elegante que parecerá que inventaste un nuevo paso de baile.", tipo: "positivo" },
-            { texto: "Descubrirás que el bolígrafo que perdiste hace tres años se ha multiplicado por diez en el fondo del cajón.", tipo: "positivo" },
-            { texto: "La máquina de café de la oficina decidirá hoy regalarte el mejor capuchino del mundo sin cobrarte un céntimo.", tipo: "positivo" },
-            { texto: "El compañero más pesado de la oficina se irá de vacaciones exótico-místicas a una isla sin cobertura.", tipo: "positivo" },
-            { texto: "Encontrarás en el buzón una factura que resulta ser, por una extraña y milagrosa desviación cósmica, una devolución de dinero a tu favor.", tipo: "positivo" },
-            { texto: "La impresora funcionará a la primera, sin atascarse y escaneando con la precisión de un láser suizo.", tipo: "positivo" },
-            { texto: "Alguien traerá bizcocho casero de chocolate y justo el primer trozo gigante con pepitas irá directo a tu mesa.", tipo: "positivo" },
-            { texto: "El aire acondicionado de la oficina se pondrá milagrosamente a tu temperatura ideal exacta de confort.", tipo: "positivo" },
-            { texto: "Si la vida te da la espalda, ponle la zancadilla.", tipo: "positivo" },
-            { texto: "Te espera un día brillante, a menos que decidas salir a la calle.", tipo: "positivo" },
-            { texto: "El repartidor de paquetes tocará tu timbre justo cuando estés abriendo la puerta, sincronizando el cosmos a tu favor.", tipo: "positivo" },
+        let fortunas = [];
 
-            // --- NEGATIVAS ---
-            { texto: "Un pato te mirará fijamente en la calle. No le des explicaciones, solo saluda y... ¡huye!", tipo: "negativo" },
-            { texto: "Cuidado con los charcos invisibles y las esquinas traicioneras de los muebles.", tipo: "negativo" },
-            { texto: "Una gran fortuna llegará a tu vida... en forma de factura inesperada.", tipo: "negativo" },
-            { texto: "Tu tostada caerá inexorablemente por el lado de la mermelada.", tipo: "negativo" },
-            { texto: "El Wi-Fi de tu casa decidirá hacer huelga justo en tu momento de mayor inspiración.", tipo: "negativo" },
-            { texto: "Irás a abrir la nevera con ilusión y descubrirás que alguien se comió el último trozo de tarta.", tipo: "negativo" },
-            { texto: "Pisarás una baldosa floja y te rociará el tobillo de agua misteriosa.", tipo: "negativo" },
-            { texto: "Te pondrás los cascos y el cable se enredará de una forma físicamente imposible de explicar.", tipo: "negativo" },
-            { texto: "Irás a tirar la basura y te darás cuenta de que se te olvidó cambiar la bolsa.", tipo: "negativo" },
-            { texto: "Un mosquito invisible te declarará la guerra justo cuando apagues la luz para dormir.", tipo: "negativo" },
-            { texto: "Te darás cuenta de que llevas la etiqueta de la camiseta por fuera a mitad de la calle.", tipo: "negativo" },
-            { texto: "El bolígrafo que necesitas desaparecerá de la faz de la tierra durante al menos tres horas.", tipo: "negativo" },
-            { texto: "Irás a enchufar el cargador del móvil y fallará de milímetros de forma desesperante.", tipo: "negativo" },
-            { texto: "Te atacará una pereza monumental justo cuando tengas que limpiar la cocina.", tipo: "negativo" },
-            { texto: "Sonará tu canción favorita y justo se cortará por culpa de un túnel o mala cobertura.", tipo: "negativo" },
-            { texto: "Tendrás la sensación absoluta de que te olvidas de algo importante, aunque no tengas ni idea de qué es.", tipo: "negativo" },
-            { texto: "Justo cuando le des a 'enviar' al informe más importante de la semana, se irá la luz en todo el polígono.", tipo: "negativo" },
-            { texto: "Tu jefe te llamará a su despacho a última hora del viernes solo para decirte: 'oye, una cosita rápida'.", tipo: "negativo" },
-            { texto: "Comprarás una bolsa de patatas fritas y, al abrirla, descubrirás que el 85% del contenido es aire puro y melancolía.", tipo: "negativo" },
-            { texto: "Tu perro elegirá el charco de barro más gigantesco del parque para revolcarse justo cinco minutos antes de volver a casa en coche.", tipo: "negativo" }
-        ];
+        // Carga automática del archivo de texto augurios.txt
+        fetch('augurios.txt')
+            .then(response => response.text())
+            .then(data => {
+                let lineas = data.split('\n');
+                fortunas = lineas.map(linea => {
+                    let textoLimpio = linea.trim();
+                    let esNegativa = false;
+                    
+                    if (textoLimpio.startsWith('(-)')) {
+                        esNegativa = true;
+                        textoLimpio = textoLimpio.replace('(-)', '').trim();
+                    } else if (textoLimpio.startsWith('(+)')) {
+                        textoLimpio = textoLimpio.replace('(+)', '').trim();
+                    }
+
+                    return {
+                        texto: textoLimpio,
+                        tipo: esNegativa ? 'negativo' : 'positivo'
+                    };
+                }).filter(f => f.texto.length > 0);
+            })
+            .catch(error => console.log("No se pudieron cargar los augurios:", error));
 
         let musicStarted = false;
         const music = document.getElementById('bgMusic');
@@ -529,6 +492,12 @@
             soundCrush.play().catch(e => console.log("Audio crujido bloqueado"));
 
             incrementGlobalCookies();
+
+            if (fortunas.length === 0) {
+                document.getElementById('fortuneText').innerText = "Cargando augurios o archivo vacío...";
+                document.getElementById('fortuneModal').style.display = 'flex';
+                return;
+            }
 
             const randomFortune = fortunas[Math.floor(Math.random() * fortunas.length)];
             document.getElementById('fortuneText').innerText = randomFortune.texto;
