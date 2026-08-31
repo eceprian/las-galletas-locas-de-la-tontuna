@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galletas Locas de la Tontuna</title>
-    <!-- Importamos la fuente tipo máquina de escribir -->
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         body {
@@ -293,10 +292,8 @@
 </head>
 <body>
 
-    <!-- Botón flotante para activar/silenciar la música -->
     <button class="music-toggle" id="musicBtn" onclick="toggleMusic()" title="Silenciar / Activar música">🔇</button>
 
-    <!-- Archivos de audio locales -->
     <audio id="bgMusic" loop>
         <source src="musica-suave.mp3" type="audio/mpeg">
         Tu navegador no soporta audio.
@@ -314,29 +311,23 @@
         <source src="pedo.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Encabezado con soporte para ambas imágenes adaptativas -->
     <div class="header-container">
         <img src="titulo.png" alt="Galletas Locas de la Tontuna" class="header-desktop">
         <img src="titulo-movil.png" alt="Galletas Locas de la Tontuna" class="header-mobile">
     </div>
 
-    <!-- Área celeste interactiva donde flotarán las 30 galletitas -->
     <div class="play-area" id="skyArea">
-        <!-- Las galletas se generan automáticamente aquí mediante JavaScript -->
-    </div>
+        </div>
 
-    <!-- Contadores puristas globales reales vía API pública -->
     <div class="stats-container">
         <div><span>Víctimas de la curiosidad (Global): </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">0</span></div>
         <div style="margin-top: 6px;"><span>Galletas masacradas globalmente sin escrúpulo: </span><span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">0</span></div>
     </div>
 
-    <!-- Crédito debajo -->
     <div class="watermark-credit">
         Una tontunez ideada por FACTORÍA BISTURÍ S.L.
     </div>
 
-    <!-- Sección para compartir -->
     <div class="share-section">
         <div style="font-size: 13px; margin-bottom: 6px;">Evita la maldición de la Galleta Loca de la Tontuna antes de que sea demasiado tarde.</div>
         <button class="share-btn" onclick="shareOnWhatsAppPrincipal()">
@@ -344,7 +335,6 @@
         </button>
     </div>
 
-    <!-- Ventana emergente (Modal del resultado) -->
     <div id="fortuneModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div id="modalFx" class="modal-fx">✨</div>
@@ -389,7 +379,7 @@
             { texto: "Tienes el superpoder secreto de recordar contraseñas absurdas a la primera.", tipo: "positivo" },
             { texto: "Te acercarás a la sección de perfumería y la dependienta te regalará una muestra de la colonia clonada que llevabas meses queriendo probar.", tipo: "positivo" },
             { texto: "Te espera una alegría gastronómica: la última croqueta del plato será para ti.", tipo: "positivo" },
-            { texto: "Tu amigo el cocinitas se ofrecerá a hacer una cena en his casa y el menú no consistirá en una tragedia modernista, sino en una carbonara de verdad que te hará llorar de la emoción.", tipo: "positivo" },
+            { texto: "Tu amigo el cocinitas se ofrecerá a hacer una cena en su casa y el menú no consistirá en una tragedia modernista, sino en una carbonara de verdad que te hará llorar de la emoción.", tipo: "positivo" },
             { texto: "Hoy brillarás tanto que hasta el microondas te aplaudirá cuando caliente el café.", tipo: "positivo" },
             { texto: "Tu paciencia será recompensada con una ración extra de paz mental.", tipo: "positivo" },
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
@@ -455,13 +445,13 @@
             }
         }
 
-        // --- MODO PURISTA: Contadores globales reales sin respaldos inventados ---
+        // --- CONTADORES GLOBALES (API Abacus) ---
         async function initGlobalCounters() {
             const namespace = "factoriabisturi_galletastontuna";
             
             // 1. Contador de Visitas Global
             try {
-                let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/visitas`);
+                let response = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/visitas`);
                 let data = await response.json();
                 if (data && data.value !== undefined) {
                     document.getElementById('visit-counter').innerText = data.value;
@@ -474,7 +464,7 @@
 
             // 2. Contador de Galletas Rotas Global inicial
             try {
-                let response = await fetch(`https://api.countapi.xyz/get/${namespace}/galletas`);
+                let response = await fetch(`https://abacus.jasoncameron.dev/get/${namespace}/galletas`);
                 let data = await response.json();
                 if (data && data.value !== undefined) {
                     document.getElementById('cookie-counter').innerText = data.value;
@@ -489,7 +479,7 @@
         async function incrementGlobalCookies() {
             const namespace = "factoriabisturi_galletastontuna";
             try {
-                let response = await fetch(`https://api.countapi.xyz/hit/${namespace}/galletas`);
+                let response = await fetch(`https://abacus.jasoncameron.dev/hit/${namespace}/galletas`);
                 let data = await response.json();
                 if (data && data.value !== undefined) {
                     document.getElementById('cookie-counter').innerText = data.value;
@@ -530,7 +520,7 @@
                 skyArea.appendChild(img);
             }
 
-            // Inicializar contadores puristas
+            // Inicializar contadores
             initGlobalCounters();
         };
 
