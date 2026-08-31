@@ -26,10 +26,19 @@
             position: relative;
         }
 
-        .header-container img {
+        /* Control de imágenes de cabecera responsive */
+        .header-desktop {
             width: 100%;
             height: auto;
             display: block;
+        }
+
+        .header-mobile {
+            display: none;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            margin: 0 auto;
         }
 
         /* Botón de música flotante en la esquina superior derecha */
@@ -96,7 +105,7 @@
             max-width: 950px;
             margin: 20px auto 10px auto;
             font-family: 'Special Elite', monospace;
-            font-size: 15px; /* Más grande para que destaque */
+            font-size: 15px;
             color: #333;
             text-align: center;
             line-height: 1.8;
@@ -174,6 +183,8 @@
             border-radius: 20px;
             text-align: center;
             max-width: 400px;
+            width: 90%;
+            box-sizing: border-box;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             position: relative;
             animation: popIn 0.3s ease;
@@ -233,6 +244,29 @@
         .close-btn:hover {
             background-color: #e04343;
         }
+
+        /* --- MEDIA QUERIES (ADAPTACIÓN PARA MÓVILES) --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .header-desktop {
+                display: none;
+            }
+            .header-mobile {
+                display: block;
+            }
+            .play-area {
+                height: 420px; /* Un poco más compacto para móviles */
+            }
+            .music-toggle {
+                top: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -258,9 +292,12 @@
         <source src="pedo.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Encabezado con imagen local -->
+    <!-- Encabezado con soporte para ambas imágenes adaptativas -->
     <div class="header-container">
-        <img src="titulo.png" alt="Galletas Locas de la Tontuna">
+        <!-- Imagen ancha para ordenadores -->
+        <img src="titulo.png" alt="Galletas Locas de la Tontuna" class="header-desktop">
+        <!-- Imagen vertical/compacta para móviles -->
+        <img src="titulo-movil.png" alt="Galletas Locas de la Tontuna" class="header-mobile">
     </div>
 
     <!-- Área celeste interactiva donde flotarán las 30 galletitas -->
@@ -268,7 +305,7 @@
         <!-- Las galletas se generan automáticamente aquí mediante JavaScript -->
     </div>
 
-    <!-- Contadores destacados (Más visibles que la factoría) -->
+    <!-- Contadores destacados -->
     <div class="stats-container">
         <div><span>Víctimas de la curiosidad: </span><span id="visit-counter" style="background: #222; color: #0ff; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
         <div style="margin-top: 6px;"><span>Galletas masacradas sin escrúpulo </span><span style="font-size: 13px; color: #d63384; font-weight: bold;">(¡ahí, acumulando karma!)</span>: <span id="cookie-counter" style="background: #222; color: #f0f; padding: 2px 8px; border-radius: 4px; font-weight: bold; letter-spacing: 1px;">...</span></div>
