@@ -86,7 +86,7 @@
             cursor: pointer;
             object-fit: contain;
             transition: transform 0.2s;
-            animation: floatClouds 3.5s ease-in-out infinite alternate;
+            animation: floatClouds 3s ease-in-out infinite alternate;
         }
 
         .floating-cookie:hover {
@@ -96,9 +96,9 @@
 
         @keyframes floatClouds {
             0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
-            33% { transform: translateY(-22px) translateX(12px) rotate(6deg); }
-            66% { transform: translateY(12px) translateX(-15px) rotate(-6deg); }
-            100% { transform: translateY(-18px) translateX(8px) rotate(4deg); }
+            33% { transform: translateY(-28px) translateX(16px) rotate(10deg); }
+            66% { transform: translateY(18px) translateX(-20px) rotate(-10deg); }
+            100% { transform: translateY(-22px) translateX(12px) rotate(6deg); }
         }
 
         /* Bloque de contadores destacados (más grandes que los créditos) */
@@ -230,6 +230,15 @@
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
         .close-btn {
             background-color: #ff5e5e;
             color: white;
@@ -321,7 +330,7 @@
     <div class="share-section">
         <div style="font-size: 13px; margin-bottom: 4px;">¿Te ha tocado una maldición o quieres que tus amigos sufran también?</div>
         <div style="font-size: 12px; color: #666; margin-bottom: 8px;">(Aviso: Si no lo compartes, tu tostada caerá por el lado de la mermelada hoy).</div>
-        <button class="share-btn" onclick="shareOnWhatsApp()">
+        <button class="share-btn" onclick="shareOnWhatsAppPrincipal()">
             💬 ¡Compartir mis penas (o glorias) por WhatsApp!
         </button>
     </div>
@@ -338,7 +347,10 @@
             
             <div id="fortuneText" class="fortune-strip">Cargando augurio...</div>
 
-            <button class="close-btn" onclick="closeModalDirect()">¡Otra galleta!</button>
+            <div class="modal-buttons">
+                <button class="close-btn" onclick="shareOnWhatsAppFortune()">💬 Compartir esta galleta</button>
+                <button class="close-btn" onclick="closeModalDirect()">¡Otra galleta!</button>
+            </div>
         </div>
     </div>
 
@@ -376,7 +388,7 @@
             { texto: "Un mensaje inesperado en tu móvil te arrancará una sonrisa de oreja a oreja.", tipo: "positivo" },
             { texto: "Hoy tu jefe te mirará a los ojos y te ascenderá a 'Director Supremo de Mirar el Techo' con sueldo de ministro.", tipo: "positivo" },
             { texto: "Fingirás una tos en el transporte público para que te dejen el asiento libre y la persona de al lado te ofrecerá un caramelo de eucalipto milagroso.", tipo: "positivo" },
-            { texto: "El Excel de la oficina cobrará vida propia y hará todas tus tareas mientras tú te pides un cafelito.", tipo: "positivo" },
+            { texto: "El Excel de la oficina cobrará vida propia y hará todas तुझ्या tareas mientras tú te pides un cafelito.", tipo: "positivo" },
             { texto: "Tu sentido del humor te salvará de un cuñado en la cena familiar.", tipo: "positivo" },
             { texto: "Te llegará un correo de recursos humanos anunciando que el viernes se implanta la siesta obligatoria retribuida.", tipo: "positivo" },
             { texto: "La reunión de las nueve de la mañana se cancelará milagrosamente y te devolverá media hora de tu valiosa existencia.", tipo: "positivo" },
@@ -480,9 +492,9 @@
                 const randomTop = Math.random() * 80;
                 const randomLeft = Math.random() * 90;
                 
-                // Tamaños adaptados: en móvil entre 40px y 70px (reducidas al 75% o más), en PC entre 70px y 120px
+                // Tamaños adaptados y reducidos para móvil (entre 28px y 50px), en PC entre 70px y 120px
                 const randomSize = isMobile 
-                    ? Math.floor(Math.random() * 31) + 40 
+                    ? Math.floor(Math.random() * 23) + 28 
                     : Math.floor(Math.random() * 51) + 70; 
 
                 // Animaciones más rápidas y dinámicas (entre 2.5s y 4.5s)
@@ -557,9 +569,16 @@
             document.getElementById('fortuneModal').style.display = 'none';
         }
 
-        // Función para compartir por WhatsApp de forma divertida
-        function shareOnWhatsApp() {
-            const texto = "¡Ven a romper galletas de la fortuna y a descubrir tus desgracias (o suertes) en este antro de tontuna! 🥠✨ Pruébalo aquí: " + window.location.href;
+        // Función para compartir por WhatsApp desde la página principal
+        function shareOnWhatsAppPrincipal() {
+            const texto = "¡Ven a romper las Galletas Locas de la Tontuna y a descubrir tus desgracias (o suertes) en este antro de tontuna! 🥠✨ Pruébalo aquí: " + window.location.href;
+            window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
+        }
+
+        // Función para compartir la predicción exacta por WhatsApp desde el modal
+        function shareOnWhatsAppFortune() {
+            const prediccionActual = document.getElementById('fortuneText').innerText;
+            const texto = `¡Mira la maldición/gloria que me ha tocado en las Galletas Locas de la Tontuna! 🥠💥:\n\n"${prediccionActual}"\n\n¿Te atreves a probar suerte (y arriesgar tu tostada)? Pruébalo aquí: ` + window.location.href;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
         }
     </script>
