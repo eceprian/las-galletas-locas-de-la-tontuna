@@ -328,8 +328,7 @@
 
     <!-- Sección divertida para compartir -->
     <div class="share-section">
-        <div style="font-size: 13px; margin-bottom: 4px;">¿Te ha tocado una maldición o quieres que tus amigos sufran también?</div>
-        <div style="font-size: 12px; color: #666; margin-bottom: 8px;">(Aviso: Si no lo compartes, tu tostada caerá por el lado de la mermelada hoy). Evita la maldición de la galleta loca de la Tontuna antes de que sea tarde</div>
+        <div style="font-size: 13px; margin-bottom: 6px;">Evita la maldición de la Galleta Loca de la Tontuna antes de que sea demasiado tarde.</div>
         <button class="share-btn" onclick="shareOnWhatsAppPrincipal()">
             💬 ¡Compartir por Whatsapp!
         </button>
@@ -571,11 +570,11 @@
 
         // Función para compartir por WhatsApp desde la página principal
         function shareOnWhatsAppPrincipal() {
-            const texto = "¡Ven a romper las Galletas Locas de la Tontuna y a descubrir tus desgracias (o suertes) en este antro de tontuna! 🥠✨ Pruébalo aquí: " + window.location.href;
+            const texto = "¡Ven a elegir tu Galleta Loca de la Tontuna para hoy y descubre en este antro de tontuna si estás de suerte! 🥠✨ Pruébalo aquí: " + window.location.href;
             window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(texto), "_blank");
         }
 
-        // Función para compartir la predicción exacta por WhatsApp desde el modal con formato visual simulado
+        // Función para compartir la predicción exacta por WhatsApp desde el modal con formato visual simulado y estrellitas en lugar de bomba
         function shareOnWhatsAppFortune() {
             const prediccionActual = document.getElementById('fortuneText').innerText;
             const texto = "✨ *¡Mira el augurio que me ha tocado en las Galletas Locas de la Tontuna!* 🥠✨\n\n" +
